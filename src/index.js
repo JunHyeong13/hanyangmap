@@ -3,13 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 // import App from './App';
 // import Test from './Test';
-import Location from './location';
+import MapComponent from './location';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Location />
+    <MapComponent />
   </React.StrictMode>
 );
 
