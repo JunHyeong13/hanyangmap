@@ -1,3 +1,4 @@
+// 수정된 버전 (주소 정보 확인 가능)
 import React, { useEffect, useRef, useState } from 'react';
 
 const MapComponent = () => {
