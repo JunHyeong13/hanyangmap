@@ -8,7 +8,7 @@ const MapComponent = () => {
     if (mapContainerRef.current) {
       const mapOption = {
         center: new window.kakao.maps.LatLng(37.298761981595376, 126.8379862598931),
-        level: 4
+        level: 3
       };
 
       const map = new window.kakao.maps.Map(mapContainerRef.current, mapOption);
@@ -22,18 +22,36 @@ const MapComponent = () => {
       const zoomControl = new window.kakao.maps.ZoomControl();
       map.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT);
 
-      const imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png';
-      const imageSize = new window.kakao.maps.Size(64, 69);
-      const imageOption = { offset: new window.kakao.maps.Point(27, 69) };
-      const markerImage = new window.kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+      // Create a marker position
+      const position = new window.kakao.maps.LatLng(37.298761981595376,126.8379862598931);
 
-      const markerPosition = new window.kakao.maps.LatLng(37.298761981595376, 126.8379862598931);
+      // Create a marker
       const marker = new window.kakao.maps.Marker({
-        position: markerPosition,
-        image: markerImage
+        position: position
       });
 
+      // Add the marker to the map
       marker.setMap(map);
+
+      // Create an info window content
+      const iwContent = '<div style="padding:6px;">Hanyang Shuttle</div>';
+
+      // Create an info window
+      const infowindow = new window.kakao.maps.InfoWindow({
+        content: iwContent
+      });
+
+      // Add a mouseover event to the marker
+      window.kakao.maps.event.addListener(marker, 'mouseover', function() {
+        // When the mouse is over the marker, display the info window
+        infowindow.open(map, marker);
+      });
+
+      // Add a mouseout event to the marker
+      window.kakao.maps.event.addListener(marker, 'mouseout', function() {
+        // When the mouse is out of the marker, close the info window
+        infowindow.close();
+      });
     }
   }, []);
 
