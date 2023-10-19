@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from 'react';
 const MapComponent = () => {
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
+  const markerRef = useRef(null);
 
   useEffect(() => {
     if (mapContainerRef.current) {
@@ -18,10 +19,17 @@ const MapComponent = () => {
 
       // Function to add a marker and display the address
       function addMarkerAndAddress(position) {
+        // Remove the previously created marker if it exists
+        if (markerRef.current) {
+          markerRef.current.setMap(null);
+        }
+
         // Create a marker
         const marker = new window.kakao.maps.Marker({
           position: position
         });
+
+        markerRef.current = marker;
 
         // Event listener for marker click
         window.kakao.maps.event.addListener(marker, 'click', function() {
