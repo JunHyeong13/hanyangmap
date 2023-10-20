@@ -80,7 +80,7 @@ const MapComponent = () => {
     <div
       ref={mapContainerRef}
       id="map"
-      style={{ width: '80%', height: '600px' }}
+      style={{ width: '100%', height: '70vh' }} // Adjust the height as needed
     ></div>
   );
 };
