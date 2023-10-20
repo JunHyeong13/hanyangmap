@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-// import App from './App';
-// import Test from './Test';
 import MapComponent from './location';
 import reportWebVitals from './reportWebVitals';
 

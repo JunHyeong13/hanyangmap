@@ -4,6 +4,7 @@ const MapComponent = () => {
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
   const markerRef = useRef(null);
+  const openInfoWindowRef = useRef(null);
 
   useEffect(() => {
     if (mapContainerRef.current) {
@@ -14,8 +15,6 @@ const MapComponent = () => {
 
       const map = new window.kakao.maps.Map(mapContainerRef.current, mapOption);
       mapRef.current = map;
-
-      let openInfoWindow = null;
 
       // Function to add a marker and display the address
       function addMarkerAndAddress(position) {
@@ -39,11 +38,9 @@ const MapComponent = () => {
           // Get the address based on the clicked position
           geocoder.coord2Address(position.getLng(), position.getLat(), function(result, status) {
             if (status === window.kakao.maps.services.Status.OK) {
-              // Create infoContents with address and a link for directions
-              const infoContents = '<div style="padding:10px;">' + result[0].address.address_name +
-                '<br><a href="https://map.kakao.com", ' + position.getLat() + ',' + position.getLng() +
-                ' style="color:blue" target="_blank">길찾기</a> </div>';
-              
+              const address = result[0].address.address_name;
+              const infoContents = `<div style="padding:10px;">${address}<br><a href="https://map.kakao.com/?q=${address}" style="color:blue" target="_blank">길찾기</a></div>`;
+        
               // Create an infoWindow with the infoContents
               const infoWindow = new window.kakao.maps.InfoWindow({
                 position: position,
@@ -51,13 +48,17 @@ const MapComponent = () => {
               });
 
               // Close the previously open infoWindow if there is one
-              if (openInfoWindow) {
-                openInfoWindow.close();
+              if (openInfoWindowRef.current) {
+                openInfoWindowRef.current.close();
               }
 
               // Open the new infoWindow and update the openInfoWindow variable
               infoWindow.open(map, marker);
-              openInfoWindow = infoWindow;
+              openInfoWindowRef.current = infoWindow;
+
+              // Center the map on the clicked marker and increase the level
+              map.setCenter(position);
+              map.setLevel(1); // You can adjust the level as needed
             } else {
               console.error('Geocoding failed with status:', status);
             }
